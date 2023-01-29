@@ -51,5 +51,9 @@ needsPar SigPatOut{} = True
 needsPar _ = False
 
 parPat :: Pat' -> Pat'
+#if MIN_VERSION_ghc(9,4,0)
+parPat p = (withEpAnnNotUsed ParPat) (noLoc HsTok) (builtPat p) (noLoc HsTok)
+#else
 parPat = withEpAnnNotUsed ParPat . builtPat
+#endif
 
